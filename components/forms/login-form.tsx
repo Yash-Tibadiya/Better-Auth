@@ -15,13 +15,14 @@ import { signIn } from "@/server/users";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SvgBlackGoogleIcon } from "./icons/Icons";
+import { SvgBlackGoogleIcon } from "../icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -100,7 +101,11 @@ export function LoginForm({
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="m@example.com" {...field} />
+                          <Input
+                            placeholder="m@example.com"
+                            {...field}
+                            required
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -117,8 +122,9 @@ export function LoginForm({
                         <FormControl>
                           <Input
                             placeholder="********"
-                            {...field}
                             type="password"
+                            {...field}
+                            required
                           />
                         </FormControl>
                         <FormMessage />
@@ -126,7 +132,7 @@ export function LoginForm({
                     )}
                   />
                   <a
-                    href="#"
+                    href="/"
                     className="ml-auto text-sm leading-none font-medium underline-offset-2 hover:underline"
                   >
                     Forgot your password?
@@ -167,9 +173,9 @@ export function LoginForm({
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
+                  <Link href="/signup" className="underline underline-offset-2">
                     Sign up
-                  </a>
+                  </Link>
                 </div>
               </div>
             </form>
@@ -184,8 +190,8 @@ export function LoginForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="/">Terms of Service</a>{" "}
+        and <a href="/">Privacy Policy</a>.
       </div>
     </div>
   );
