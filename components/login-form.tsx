@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import {
   Form,
@@ -17,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { SvgBlackGoogleIcon } from "./icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
+import { Ellipsis, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -29,7 +31,21 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [isLoading, setIsLoading] = useState(false);
+  // const [dots, setDots] = useState("");
   const router = useRouter();
+
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     const interval = setInterval(() => {
+  //       setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
+  //     }, 250);
+  //     return () => clearInterval(interval);
+  //   } else {
+  //     setDots("");
+  //   }
+  // }, [isLoading]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,6 +55,7 @@ export function LoginForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     const { success, message } = await signIn(values.email, values.password);
 
     if (success) {
@@ -47,6 +64,7 @@ export function LoginForm({
     } else {
       toast.error(String(message));
     }
+    setIsLoading(false);
   }
 
   return (
@@ -102,8 +120,14 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
+
+                  {/* {isLoading ? `Login${dots}` : "Login"} */}
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-card text-muted-foreground relative z-10 px-2">
