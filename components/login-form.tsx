@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import {
   Form,
@@ -18,9 +18,10 @@ import { Button } from "@/components/ui/button";
 import { SvgBlackGoogleIcon } from "./icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
-import { Ellipsis, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,6 +33,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   // const [dots, setDots] = useState("");
   const router = useRouter();
 
@@ -53,6 +55,16 @@ export function LoginForm({
       password: "",
     },
   });
+
+  const signInWithGoogle = async () => {
+    setIsGoogleLoading(true);
+    toast.info("Redirecting to Google...");
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+    setIsGoogleLoading(false);
+  };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -122,7 +134,7 @@ export function LoginForm({
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
-                    <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                    <LoaderCircle className="animate-spin" />
                   ) : (
                     "Login"
                   )}
@@ -135,21 +147,22 @@ export function LoginForm({
                   </span>
                 </div>
                 <div className="">
-                  {/* <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full p-0 [&_svg:not([class*='size-'])]:size-5"
-                >
-                  <SvgGoogleIcon />
-                  <span>Login with Google</span>
-                </Button> */}
                   <Button
                     variant="outline"
                     type="button"
-                    className="w-full p-0 [&_svg:not([class*='size-'])]:size-[19px]"
+                    className="w-full"
+                    onClick={signInWithGoogle}
+                    disabled={isGoogleLoading}
                   >
-                    <SvgBlackGoogleIcon />
-                    <span>Login with Google</span>
+                    {isGoogleLoading ? (
+                      <LoaderCircle className="animate-spin" />
+                    ) : (
+                      <>
+                        {/* <SvgGoogleIcon /> */}
+                        <SvgBlackGoogleIcon />
+                        <span>Login with Google</span>
+                      </>
+                    )}
                   </Button>
                 </div>
                 <div className="text-center text-sm">

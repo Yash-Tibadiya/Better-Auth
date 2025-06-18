@@ -16,9 +16,10 @@ export const signIn = async (email: string, password: string) => {
       message: "Signed in successfully!",
     };
   } catch (error) {
+    const e = error as Error;
     return {
       success: false,
-      message: "Failed to sign in. Please check your credentials.",
+      message: e.message || "Failed to sign in. Please check your credentials.",
     };
   }
 };
