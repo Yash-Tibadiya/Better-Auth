@@ -2,21 +2,33 @@
 
 import { auth } from "@/lib/auth";
 
-export const signIn = async () => {
-  await auth.api.signInEmail({
-    body: {
-      email: "yyyaaassshhh1434@gmail.com",
-      password: "12121212",
-    },
-  });
+export const signIn = async (email: string, password: string) => {
+  try {
+    await auth.api.signInEmail({
+      body: {
+        email,
+        password,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Signed in successfully!",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Failed to sign in. Please check your credentials.",
+    };
+  }
 };
 
-export const signUp = async () => {
+export const signUp = async (email: string, password: string, name: string) => {
   await auth.api.signUpEmail({
     body: {
-      email: "yyyaaassshhh1434@gmail.com",
-      password: "12121212",
-      name: "yash",
+      email,
+      password,
+      name,
     },
   });
 };
