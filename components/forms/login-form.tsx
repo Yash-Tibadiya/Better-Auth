@@ -15,7 +15,7 @@ import { signIn } from "@/server/users";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SvgBlackGoogleIcon } from "../icons/Icons";
+import { SvgBlackGoogleIcon, SvgWhiteGoogleIcon } from "../icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
@@ -23,6 +23,8 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -37,6 +39,9 @@ export function LoginForm({
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   // const [dots, setDots] = useState("");
   const router = useRouter();
+  const { theme, systemTheme } = useTheme();
+  const isDarkMode =
+    theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   // useEffect(() => {
   //   if (isLoading) {
@@ -165,7 +170,11 @@ export function LoginForm({
                     ) : (
                       <>
                         {/* <SvgGoogleIcon /> */}
-                        <SvgBlackGoogleIcon />
+                        {isDarkMode ? (
+                          <SvgWhiteGoogleIcon />
+                        ) : (
+                          <SvgBlackGoogleIcon />
+                        )}
                         <span>Login with Google</span>
                       </>
                     )}
@@ -181,10 +190,11 @@ export function LoginForm({
             </form>
           </Form>
           <div className="bg-muted relative hidden md:block">
-            <img
-              src="./images/login_img_2.jpg"
+            <Image
+              src="/images/login_img_3.jpg"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:grayscale"
+              fill
             />
           </div>
         </CardContent>

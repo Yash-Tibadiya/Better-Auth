@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import { z } from "zod";
 import {
   Form,
@@ -14,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SvgBlackGoogleIcon } from "../icons/Icons";
+import { SvgBlackGoogleIcon, SvgWhiteGoogleIcon } from "../icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
@@ -23,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { signUp } from "@/server/users";
 import Link from "next/link";
+import Image from "next/image";
 
 const formSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters long"),
@@ -37,6 +39,8 @@ export function SignupForm({
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
+  const { theme, systemTheme } = useTheme();
+  const isDarkMode = theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -169,8 +173,11 @@ export function SignupForm({
                       <LoaderCircle className="animate-spin" />
                     ) : (
                       <>
-                        {/* <SvgGoogleIcon /> */}
-                        <SvgBlackGoogleIcon />
+                        {isDarkMode ? (
+                          <SvgWhiteGoogleIcon />
+                        ) : (
+                          <SvgBlackGoogleIcon />
+                        )}
                         <span>Signup with Google</span>
                       </>
                     )}
@@ -186,10 +193,11 @@ export function SignupForm({
             </form>
           </Form>
           <div className="bg-muted relative hidden md:block">
-            <img
-              src="./images/login_img_2.jpg"
+            <Image
+              src="/images/login_img_3.jpg"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:grayscale"
+              fill
             />
           </div>
         </CardContent>
