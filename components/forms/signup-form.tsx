@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme } from "next-themes";
 import { z } from "zod";
 import {
   Form,
@@ -15,7 +14,7 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SvgBlackGoogleIcon, SvgWhiteGoogleIcon } from "../icons/Icons";
+import { SvgBlackGoogleIcon } from "../icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
@@ -39,8 +38,6 @@ export function SignupForm({
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const router = useRouter();
-  const { theme, systemTheme } = useTheme();
-  const isDarkMode = theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -173,11 +170,8 @@ export function SignupForm({
                       <LoaderCircle className="animate-spin" />
                     ) : (
                       <>
-                        {isDarkMode ? (
-                          <SvgWhiteGoogleIcon />
-                        ) : (
-                          <SvgBlackGoogleIcon />
-                        )}
+                        {/* <SvgGoogleIcon /> */}
+                        <SvgBlackGoogleIcon className="dark:invert" />
                         <span>Signup with Google</span>
                       </>
                     )}

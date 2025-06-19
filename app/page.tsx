@@ -15,10 +15,12 @@ export default function Home() {
 
       <h1 className="text-4xl font-bold">Better Auth Starter</h1>
 
-      <p className="text-lg">
-        This is a starter project for Better Auth. It is a simple project that
-        uses Better Auth to authenticate users.
-      </p>
+      <div className="max-w-[600px] mx-auto">
+        <p className="text-lg">
+          This is a starter project for Better Auth. It is a simple project that
+          uses Better Auth to authenticate users.
+        </p>
+      </div>
 
       <div className="flex gap-2">
         <Link href="/login">

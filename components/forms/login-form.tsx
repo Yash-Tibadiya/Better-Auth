@@ -15,7 +15,7 @@ import { signIn } from "@/server/users";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SvgBlackGoogleIcon, SvgWhiteGoogleIcon } from "../icons/Icons";
+import { SvgBlackGoogleIcon } from "../icons/Icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
@@ -24,7 +24,6 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -39,9 +38,6 @@ export function LoginForm({
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   // const [dots, setDots] = useState("");
   const router = useRouter();
-  const { theme, systemTheme } = useTheme();
-  const isDarkMode =
-    theme === "dark" || (theme === "system" && systemTheme === "dark");
 
   // useEffect(() => {
   //   if (isLoading) {
@@ -170,11 +166,7 @@ export function LoginForm({
                     ) : (
                       <>
                         {/* <SvgGoogleIcon /> */}
-                        {isDarkMode ? (
-                          <SvgWhiteGoogleIcon />
-                        ) : (
-                          <SvgBlackGoogleIcon />
-                        )}
+                        <SvgBlackGoogleIcon className="dark:invert" />
                         <span>Login with Google</span>
                       </>
                     )}
