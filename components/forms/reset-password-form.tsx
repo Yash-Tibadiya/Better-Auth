@@ -31,7 +31,9 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
-  password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" }),
   confirmPassword: z.string().min(8),
 });
 
@@ -82,9 +84,7 @@ export function ResetPasswordForm({
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Reset Password</CardTitle>
-          <CardDescription>
-            Enter your new password
-          </CardDescription>
+          <CardDescription>Enter your new password</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -98,7 +98,11 @@ export function ResetPasswordForm({
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input placeholder="********" {...field} type="password" />
+                          <Input
+                            placeholder="********"
+                            {...field}
+                            type="password"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -113,7 +117,11 @@ export function ResetPasswordForm({
                       <FormItem>
                         <FormLabel>Confirm Password</FormLabel>
                         <FormControl>
-                          <Input placeholder="********" {...field} type="password" />
+                          <Input
+                            placeholder="********"
+                            {...field}
+                            type="password"
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

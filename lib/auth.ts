@@ -23,7 +23,11 @@ export const auth = betterAuth({
         from: "Better Auth <dev@yash14.me>",
         to: user.email,
         subject: "Better Auth - Reset your password",
-        react: ForgotPasswordEmail({ userName: user.name, userEmail: user.email, resetUrl: url }),
+        react: ForgotPasswordEmail({
+          userName: user.name,
+          userEmail: user.email,
+          resetUrl: url,
+        }),
       });
     },
   },
