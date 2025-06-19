@@ -1,6 +1,7 @@
 import { ResetPasswordForm } from "@/components/forms/reset-password-form";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function ResetPasswordPage() {
   return (
@@ -22,7 +23,9 @@ export default function ResetPasswordPage() {
           </div>
           <span className="text-3xl font-bold">Acme Inc</span>
         </Link>
-        <ResetPasswordForm />
+        <Suspense>
+          <ResetPasswordForm />
+        </Suspense>
       </div>
     </div>
   );
