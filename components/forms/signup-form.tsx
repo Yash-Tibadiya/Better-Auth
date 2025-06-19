@@ -140,7 +140,7 @@ export function SignupForm({
                     )}
                   />
                   <a
-                    href="/"
+                    href="/forgot-password"
                     className="ml-auto text-sm leading-none font-medium underline-offset-2 hover:underline"
                   >
                     Forgot your password?
@@ -188,7 +188,7 @@ export function SignupForm({
           </Form>
           <div className="bg-muted relative hidden md:block">
             <Image
-              src="/images/login_img_3.jpg"
+              src="/images/login_img_2.jpg"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.9] dark:grayscale"
               fill

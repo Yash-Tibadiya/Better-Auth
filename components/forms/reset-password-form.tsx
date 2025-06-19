@@ -133,7 +133,7 @@ export function LoginForm({
                     )}
                   />
                   <a
-                    href="/forgot-password"
+                    href="/"
                     className="ml-auto text-sm leading-none font-medium underline-offset-2 hover:underline"
                   >
                     Forgot your password?
