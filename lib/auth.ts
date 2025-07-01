@@ -1,4 +1,5 @@
 import ForgotPasswordEmail from "@/components/emails/reset-password";
+import VerifyEmail from "@/components/emails/verify-email";
 import { db } from "@/db/drizzle";
 import { schema } from "@/db/schema";
 
@@ -11,12 +12,16 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   emailVerification: {
-    sendVerificationEmail: async ({ user, url, token }, request) => {
-      // await sendEmail({
-      //     to: user.email,
-      //     subject: 'Verify your email address',
-      //     text: `Click the link to verify your email: ${url}`
-      // })
+    sendVerificationEmail: async ({ user, url }) => {
+      await resend.emails.send({
+        from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
+        to: user.email,
+        subject: "Better Auth - Verify your email",
+        react: VerifyEmail({
+          username: user.name,
+          verifyUrl: url,
+        }),
+      });
     },
     sendOnSignUp: true,
   },
@@ -30,7 +35,7 @@ export const auth = betterAuth({
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Better Auth <dev@yash14.me>",
+        from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
         to: user.email,
         subject: "Better Auth - Reset your password",
         react: ForgotPasswordEmail({
